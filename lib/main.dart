@@ -2,7 +2,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:aslom_carinderia/widgets/logo.dart';
+import 'package:aslom_carinderia/widgets/custom_text.dart';
 import 'widgets/custom_text_field.dart';
+import 'package:aslom_carinderia/widgets/custom_button.dart';
+import 'package:aslom_carinderia/widgets/custom_link_button.dart';
+import 'package:aslom_carinderia/widgets/version_handler.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -56,127 +61,72 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Aslom',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -1,
-                            fontSize: 30),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Carinderia',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -1,
-                            fontSize: 30,
-                            color: Colors.purple),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'Welcome please login',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        fontSize: 16,
-                        color: Colors.grey),
-                  ),
-                  const SizedBox(height: 24),
-                  CustomTextField(
-                    labelText: 'Username',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter your username";
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _username = value;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    isObscure: true,
-                    labelText: 'Password',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter your password";
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _password = value;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _handleLogin, // Call login function
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(18),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          backgroundColor: Colors.purple),
-                      child: const Text(
-                        'Login',
-                        style: (TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            color: Colors.white)),
-                      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Logo(),
+                    const SizedBox(height: 5),
+                    const CustomText(
+                      labelText: 'Welcome please login',
+                      color: Colors.grey,
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  TextButton(
-                    onPressed: _handleCreateAccountRoute,
-                    style: ButtonStyle(
-                        overlayColor:
-                            WidgetStateProperty.all(Colors.transparent)),
-                    child: const Text(
-                      'Create Account',
-                      style: (TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          decoration: TextDecoration.underline)),
+                    const SizedBox(height: 24),
+                    CustomTextField(
+                      labelText: 'Username',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your username";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _username = value;
+                      },
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Version: ${dotenv.env['VERSION_CODE']}',
-                        style: (const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        )),
-                      )
-                    ],
-                  )
-                ],
+                    const SizedBox(height: 16),
+                    CustomTextField(
+                      isObscure: true,
+                      labelText: 'Password',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your password";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _password = value;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    CustomButton(buttonText: 'Log in', onPressed: _handleLogin),
+                    const SizedBox(height: 5),
+                    CustomLinkButton(
+                      buttonText: 'Create Account',
+                      onPressed: _handleCreateAccountRoute,
+                    ),
+                  ],
+                ),
               ),
-            )),
+            ),
+          ),
+          // Version text at the bottom
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(10),
+              child: const VersionHandler(),
+            ),
+          ),
+        ],
       ),
     );
   }
