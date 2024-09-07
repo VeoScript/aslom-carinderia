@@ -10,7 +10,7 @@ import 'package:aslom_carinderia/widgets/custom_button.dart';
 import 'package:aslom_carinderia/widgets/version_handler.dart';
 
 // Screens Imports
-import 'package:aslom_carinderia/screens/create-account-screen.dart';
+import 'package:aslom_carinderia/screens/create_account_screen.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
