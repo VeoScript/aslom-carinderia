@@ -2,12 +2,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// Custom Widgets Imports
 import 'package:aslom_carinderia/widgets/logo.dart';
 import 'package:aslom_carinderia/widgets/custom_text.dart';
 import 'widgets/custom_text_field.dart';
 import 'package:aslom_carinderia/widgets/custom_button.dart';
-import 'package:aslom_carinderia/widgets/custom_link_button.dart';
 import 'package:aslom_carinderia/widgets/version_handler.dart';
+
+// Screens Imports
+import 'package:aslom_carinderia/screens/create-account-screen.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -54,7 +57,8 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleCreateAccountRoute() {
-    print('Go to Create Account Screen');
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CreateAccountScreen()));
   }
 
   @override
