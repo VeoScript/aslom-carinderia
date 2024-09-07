@@ -106,11 +106,24 @@ class LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    CustomButton(buttonText: 'Log in', onPressed: _handleLogin),
-                    const SizedBox(height: 5),
-                    CustomLinkButton(
-                      buttonText: 'Create Account',
-                      onPressed: _handleCreateAccountRoute,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomButton(
+                          buttonText: 'Create Account',
+                          onPressed: _handleCreateAccountRoute,
+                          backgroundColor: Colors.white,
+                          textColor: Colors.purple,
+                          borderColor: Colors.purple,
+                        ),
+                        const SizedBox(width: 10),
+                        CustomButton(
+                          width: 100,
+                          buttonText: 'Log in',
+                          onPressed: _handleLogin,
+                          textColor: Colors.white,
+                        ),
+                      ],
                     ),
                   ],
                 ),
