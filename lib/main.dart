@@ -39,24 +39,40 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  LoginScreenState createState() => LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+class _LoginScreenState extends State<LoginScreen> {
+  final _loginFormKey = GlobalKey<FormState>();
 
-  String? _username;
-  String? _password;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  String? _validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter your username";
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter your password";
+    }
+    return null;
+  }
 
   void _handleLogin() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_loginFormKey.currentState!.validate()) {
+      _loginFormKey.currentState!.save();
 
-      print('Username: $_username, Password: $_password');
+      print(
+          'Username: ${_usernameController.text}, Password: ${_passwordController.text}');
     }
   }
 
   void _handleCreateAccountRoute() {
+    _loginFormKey.currentState!.reset();
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const CreateAccountScreen()));
   }
@@ -69,9 +85,9 @@ class LoginScreenState extends State<LoginScreen> {
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: Form(
-                key: _formKey,
+                key: _loginFormKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,29 +101,15 @@ class LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 24),
                     CustomTextField(
                       labelText: 'Username',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your username";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _username = value;
-                      },
+                      validator: _validateUsername,
+                      controller: _usernameController,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       isObscure: true,
                       labelText: 'Password',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your password";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _password = value;
-                      },
+                      validator: _validatePassword,
+                      controller: _passwordController,
                     ),
                     const SizedBox(height: 16),
                     Row(
